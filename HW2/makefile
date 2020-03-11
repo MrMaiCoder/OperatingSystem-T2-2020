@@ -1,7 +1,7 @@
-all: $(file_name)
+all: icsh
 
-$(file_name): $(file_name).c
-	gcc -o $(file_name) $(file_name).c
+icsh: icsh.c
+	gcc -o icsh icsh.c
 
 clean:
-	rm $(file_name)
+	rm icsh

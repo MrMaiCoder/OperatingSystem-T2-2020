@@ -27,8 +27,6 @@ int icsh_process(char **args) {
         perror("Fork failed");
     }
     if (pid == 0) {
-        /* This is the child, so execute the ls */
-        // set group
         execvp(args[0], args);
         printf("Command not found: %s \n", args[0]);
         exit(EXIT_FAILURE);
@@ -130,11 +128,16 @@ int execute_line(char **args, int status){
   return icsh_process(args);
 }
 
+void crtlc_fn(){
+  ;
+}
+
 void icsh_loop(void)
 {
   char *line;
   char **args;
   do {
+    signal(SIGINT, crtlc_fn);
     printf("icsh> ");
     line = read_line();
     args = split_line(line);
@@ -148,14 +151,10 @@ void icsh_loop(void)
   } while (1);
 }
 
+
+
 int main(int argc, char **argv)
 {
-  // Load config files, if any.
-  // signal(SIGINT, crtlc_fn);
-  // Run command loop.
   icsh_loop();
-
-  // Perform any shutdown/cleanup.
-
   return EXIT_SUCCESS;
 }
